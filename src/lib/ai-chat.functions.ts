@@ -1,5 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
-import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
+import { requireCloudAuth as requireSupabaseAuth } from "@/lib/cloud-auth-middleware";
 
 type ChatMsg = { role: "system" | "user" | "assistant"; content: string };
 

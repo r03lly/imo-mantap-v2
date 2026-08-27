@@ -1,5 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
-import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
+import { requireCloudAuth as requireSupabaseAuth } from "@/lib/cloud-auth-middleware";
 
 export type DirectoryUser = {
   user_id: string;
@@ -24,8 +24,7 @@ export const getPatientDirectory = createServerFn({ method: "GET" })
     const isPharmacist = callerRoles.includes("apoteker");
     if (!isAdmin && !isPharmacist) throw new Error("Akses ditolak");
 
-    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    let rolesQuery = supabaseAdmin.from("user_roles").select("user_id, role");
+    let rolesQuery = context.supabase.from("user_roles").select("user_id, role");
     if (!isAdmin) rolesQuery = rolesQuery.eq("role", "pasien");
 
     const { data: roles, error: rolesError } = await rolesQuery;
@@ -34,7 +33,7 @@ export const getPatientDirectory = createServerFn({ method: "GET" })
     const userIds = [...new Set((roles ?? []).map((row) => row.user_id))];
     if (userIds.length === 0) return [] as DirectoryUser[];
 
-    const { data: profiles, error: profilesError } = await supabaseAdmin
+    const { data: profiles, error: profilesError } = await context.supabase
       .from("profiles")
       .select("user_id, full_name, phone_number, is_verified, age")
       .in("user_id", userIds);
