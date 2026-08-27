@@ -1,6 +1,6 @@
 // VAPID public key is safe to ship to the browser (the private key stays on the server).
 export const VAPID_PUBLIC_KEY =
-  "BLZd50uh_34GB2bHBg_QmlJLE_VBF33jxLokTBlcHwik4OAnnlPpUhhaX6e69i0bXj7rTjbXKMoahXN27S2wsw4";
+  "BCZQTQV-202uXhECOOfh0K5FBL2tpJT6eLpfAK97kLxKJE7RdYYJ1n8Kx_jLkhBcSzkVqq2_T1KuTl8pe5PjA54";
 
 export function urlBase64ToUint8Array(base64String: string): Uint8Array {
   const padding = "=".repeat((4 - (base64String.length % 4)) % 4);
